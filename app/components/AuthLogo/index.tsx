@@ -32,6 +32,13 @@ function AuthLogo({ providerName, size = 16 }: Props) {
         </Logo>
       );
 
+    case "active_directory":
+      return (
+        <Logo>
+          <MicrosoftLogo size={size} />
+        </Logo>
+      );
+
     default:
       return null;
   }
