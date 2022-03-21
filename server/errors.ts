@@ -138,6 +138,14 @@ export function OIDCMalformedUserInfoError(
   });
 }
 
+export function LdapError(
+  message = "LDAP did not return required fields"
+) {
+  return httpErrors(400, message, {
+    id: "ldap_error",
+  });
+}
+
 export function AuthenticationProviderDisabledError(
   message = "Authentication method has been disabled by an admin",
   // @ts-expect-error ts-migrate(2322) FIXME: Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
