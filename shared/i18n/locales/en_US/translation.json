@@ -508,6 +508,7 @@
   "Already have an account? Go to <1>login</1>.": "Already have an account? Go to <1>login</1>.",
   "Sign In": "Sign In",
   "Continue with Email": "Continue with Email",
+  "Continue with ActiveDirectory": "Continue with ActiveDirectory",
   "Continue with {{ authProviderName }}": "Continue with {{ authProviderName }}",
   "Any collection": "Any collection",
   "Any time": "Any time",

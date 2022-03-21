@@ -45,6 +45,7 @@ class Provider extends React.Component<Props, State> {
   };
 
   handleSubmitEmail = async (event: React.SyntheticEvent<HTMLFormElement>) => {
+    let action = event.currentTarget.action;
     event.preventDefault();
 
     if (this.state.showEmailSignin && this.state.email) {
@@ -53,7 +54,7 @@ class Provider extends React.Component<Props, State> {
       });
 
       try {
-        const response = await client.post(event.currentTarget.action, {
+        const response = await client.post(action, {
           email: this.state.email,
         });
 
@@ -75,6 +76,7 @@ class Provider extends React.Component<Props, State> {
   };
 
   handleSubmitActiveDirectory = async (event: React.SyntheticEvent<HTMLFormElement>) => {
+    let action = event.currentTarget.action;
     event.preventDefault();
 
     if (this.state.showLdapSignin && this.state.email && this.state.password) {
@@ -83,7 +85,7 @@ class Provider extends React.Component<Props, State> {
       });
 
       try {
-        const response = await fetch(event.currentTarget.action, {
+        const response = await fetch(action, {
           method: 'POST',
           cache: 'no-cache',
           redirect: 'follow',
@@ -125,6 +127,7 @@ class Provider extends React.Component<Props, State> {
       return (
         <Wrapper key="email">
           <Form
+            id="email"
             method="POST"
             action="/auth/email"
             onSubmit={this.handleSubmitEmail}
@@ -142,7 +145,7 @@ class Provider extends React.Component<Props, State> {
                   required
                   short
                 />
-                <ButtonLarge type="submit" disabled={this.state.isSubmitting}>
+                <ButtonLarge type="submit" disabled={this.state.isSubmitting} form="email">
                   {t("Sign In")} →
                 </ButtonLarge>
               </>
@@ -164,6 +167,7 @@ class Provider extends React.Component<Props, State> {
       return (
         <Wrapper key="active_directory">
           <Form
+            id="active_directory"
             method="POST"
             action="/auth/active_directory"
             onSubmit={this.handleSubmitActiveDirectory}
@@ -191,7 +195,7 @@ class Provider extends React.Component<Props, State> {
                   required
                   short
                 />
-                <ButtonLarge type="submit" disabled={this.state.isSubmitting}>
+                <ButtonLarge type="submit" disabled={this.state.isSubmitting} form="active_directory">
                   {t("Sign In")} →
                 </ButtonLarge>
               </>
