@@ -504,6 +504,7 @@
   "Already have an account? Go to <1>login</1>.": "Уже есть учетная запись? Перейдите к <1>login</1>.",
   "Sign In": "Войти",
   "Continue with Email": "Продолжить с почтой",
+  "Continue with ActiveDirectory": "Продолжить с ActiveDirectory",
   "Continue with {{ authProviderName }}": "Продолжить с {{ authProviderName }}",
   "Any collection": "Любая коллекция",
   "Any time": "За любое время",

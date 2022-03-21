@@ -197,7 +197,7 @@ class Provider extends React.Component<Props, State> {
               </>
             ) : (
               <ButtonLarge type="submit" icon={<EmailIcon />} fullwidth>
-                {t("Continue with {{ authProviderName }}")}
+                {t("Continue with ActiveDirectory ")}
               </ButtonLarge>
             )}
           </Form>
