@@ -88,9 +88,9 @@ export default async function userCreator({
     where: {
       email,
       teamId,
-      lastActiveAt: {
-        [Op.is]: null,
-      },
+      // lastActiveAt: {
+      //   [Op.is]: null,
+      // },
     },
     include: [
       {

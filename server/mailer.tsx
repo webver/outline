@@ -83,6 +83,10 @@ export class Mailer {
           "SMTP_TLS_CIPHERS" in process.env
             ? {
                 ciphers: process.env.SMTP_TLS_CIPHERS,
+                rejectUnauthorized:
+                  "SMTP_TLS_REJECT_UNAUTHORIZED" in process.env
+                    ? process.env.SMTP_TLS_REJECT_UNAUTHORIZED !== "false"
+                    : undefined,
               }
             : undefined,
       };

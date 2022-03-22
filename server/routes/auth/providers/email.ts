@@ -80,17 +80,17 @@ router.post("email", errorHandling(), async (ctx) => {
       return;
     }
 
-    // If the user matches an email address associated with an SSO
-    // provider then just forward them directly to that sign-in page
-    if (user.authentications.length) {
-      const authProvider = find(team.authenticationProviders, {
-        id: user.authentications[0].authenticationProviderId,
-      });
-      ctx.body = {
-        redirect: `${team.url}/auth/${authProvider?.name}`,
-      };
-      return;
-    }
+    // // If the user matches an email address associated with an SSO
+    // // provider then just forward them directly to that sign-in page
+    // if (user.authentications.length) {
+    //   const authProvider = find(team.authenticationProviders, {
+    //     id: user.authentications[0].authenticationProviderId,
+    //   });
+    //   ctx.body = {
+    //     redirect: `${team.url}/auth/${authProvider?.name}`,
+    //   };
+    //   return;
+    // }
 
     if (!team.emailSigninEnabled) {
       throw AuthorizationError();

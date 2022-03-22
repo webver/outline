@@ -45,7 +45,6 @@ class Provider extends React.Component<Props, State> {
   };
 
   handleSubmitEmail = async (event: React.SyntheticEvent<HTMLFormElement>) => {
-    let action = event.currentTarget.action;
     event.preventDefault();
 
     if (this.state.showEmailSignin && this.state.email) {
@@ -54,7 +53,7 @@ class Provider extends React.Component<Props, State> {
       });
 
       try {
-        const response = await client.post(action, {
+        const response = await client.post(event.currentTarget.action, {
           email: this.state.email,
         });
 
@@ -75,8 +74,9 @@ class Provider extends React.Component<Props, State> {
     }
   };
 
-  handleSubmitActiveDirectory = async (event: React.SyntheticEvent<HTMLFormElement>) => {
-    let action = event.currentTarget.action;
+  handleSubmitActiveDirectory = async (
+    event: React.SyntheticEvent<HTMLFormElement>
+  ) => {
     event.preventDefault();
 
     if (this.state.showLdapSignin && this.state.email && this.state.password) {
@@ -85,22 +85,21 @@ class Provider extends React.Component<Props, State> {
       });
 
       try {
-        const response = await fetch(action, {
-          method: 'POST',
-          cache: 'no-cache',
-          redirect: 'follow',
+        const response = await fetch(event.currentTarget.action, {
+          method: "POST",
+          cache: "no-cache",
+          redirect: "follow",
           headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json",
           },
-          referrerPolicy: 'no-referrer',
+          referrerPolicy: "no-referrer",
           body: JSON.stringify({
             email: this.state.email,
             password: this.state.password,
-          })
+          }),
         });
 
         if (response.redirected) {
-          console.log("redirect")
           window.location.href = response.url;
         }
 
@@ -145,7 +144,11 @@ class Provider extends React.Component<Props, State> {
                   required
                   short
                 />
-                <ButtonLarge type="submit" disabled={this.state.isSubmitting} form="email">
+                <ButtonLarge
+                  type="submit"
+                  disabled={this.state.isSubmitting}
+                  form="email"
+                >
                   {t("Sign In")} →
                 </ButtonLarge>
               </>
@@ -195,7 +198,11 @@ class Provider extends React.Component<Props, State> {
                   required
                   short
                 />
-                <ButtonLarge type="submit" disabled={this.state.isSubmitting} form="active_directory">
+                <ButtonLarge
+                  type="submit"
+                  disabled={this.state.isSubmitting}
+                  form="active_directory"
+                >
                   {t("Sign In")} →
                 </ButtonLarge>
               </>
