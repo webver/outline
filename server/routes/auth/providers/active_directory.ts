@@ -39,7 +39,7 @@ if (ACTIVE_DIRECTORY_URL) {
           searchFilter: ACTIVE_DIRECTORY_SEARCH_FILTER,
           searchAttributes: ACTIVE_DIRECTORY_SEARCH_ATTRIBUTES,
           //tlsOptions: {},
-          //includeRaw: true,
+          includeRaw: true,
         },
         usernameField: "email",
         passwordField: "password",
@@ -60,6 +60,15 @@ if (ACTIVE_DIRECTORY_URL) {
             throw LdapError("Unable to load user profile from LDAP");
           }
 
+          if (!profile._raw) {
+            throw LdapError("Unable to load user profile from LDAP");
+          }
+
+          if (!profile._raw.objectGUID) {
+            throw LdapError("Unable to load user profile from LDAP");
+          }
+
+          const guid = formatGUID(profile._raw.objectGUID);
           const domain = profile.mail.split("@")[1];
           const subdomain = domain.split(".")[0];
           const teamName = profile.department;
@@ -88,7 +97,7 @@ if (ACTIVE_DIRECTORY_URL) {
               providerId: domain,
             },
             authentication: {
-              providerId: profile.mail.toLowerCase(),
+              providerId: guid,
               // @ts-expect-error ts-migrate(7005) FIXME: Variable 'scopes' implicitly has an 'any[]' type.
               scopes: scopes,
             },
@@ -104,6 +113,25 @@ if (ACTIVE_DIRECTORY_URL) {
 
   // router.post("active_directory.test", passport.authenticate('ldapauth', { session: false }));
   router.post("active_directory", passportMiddleware("ldapauth"));
+}
+
+function formatGUID(objectGUID: string) {
+  const data = new Buffer(objectGUID, "binary");
+
+  // GUID_FORMAT_D
+  let template = "{3}{2}{1}{0}-{5}{4}-{7}{6}-{8}{9}-{10}{11}{12}{13}{14}{15}";
+
+  // check each byte
+  for (let i = 0; i < data.length; i++) {
+    // get the current character from that byte
+    let dataStr = data[i].toString(16);
+    dataStr = data[i] >= 16 ? dataStr : "0" + dataStr;
+
+    // insert that character into the template
+    template = template.replace(new RegExp("\\{" + i + "\\}", "g"), dataStr);
+  }
+
+  return template;
 }
 
 // //@ts-expect-error ts-migrate(7006) FIXME: Parameter 'req' implicitly has an 'any' type.
