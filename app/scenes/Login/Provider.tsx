@@ -33,15 +33,19 @@ class Provider extends React.Component<Props, State> {
   };
 
   handleChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      email: event.target.value,
-    });
+    if (event.target.name == 'email') {
+      this.setState({
+        email: event.target.value,
+      });
+    }
   };
 
   handleChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      password: event.target.value,
-    });
+    if (event.target.name == 'password') {
+      this.setState({
+        password: event.target.value,
+      });
+    }
   };
 
   handleSubmitEmail = async (event: React.SyntheticEvent<HTMLFormElement>) => {
@@ -102,7 +106,6 @@ class Provider extends React.Component<Props, State> {
         if (response.redirected) {
           window.location.href = response.url;
         }
-
       } finally {
         this.setState({
           isSubmitting: false,
