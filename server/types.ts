@@ -37,6 +37,7 @@ export type DocumentEvent =
   | {
   name: "documents.create" // eslint-disable-line
         | "documents.publish"
+        | "documents.unpublish"
         | "documents.delete"
         | "documents.permanent_delete"
         | "documents.archive"
@@ -173,9 +174,9 @@ export type CollectionEvent =
       collectionId: string;
       teamId: string;
       actorId: string;
+      modelId: string;
       data: {
         name: string;
-        groupId: string;
       };
       ip: string;
     }

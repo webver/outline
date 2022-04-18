@@ -14,14 +14,13 @@ import {
   ImportIcon,
   NewDocumentIcon,
   DownloadIcon,
-  BuildingBlocksIcon,
   RestoreIcon,
   CrossIcon,
 } from "outline-icons";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
 import { useHistory } from "react-router-dom";
-import { useMenuState, MenuButton } from "reakit/Menu";
+import { useMenuState, MenuButton, MenuButtonHTMLProps } from "reakit/Menu";
 import { VisuallyHidden } from "reakit/VisuallyHidden";
 import styled from "styled-components";
 import breakpoint from "styled-components-breakpoint";
@@ -43,6 +42,7 @@ import { actionToMenuItem } from "~/actions";
 import { pinDocument } from "~/actions/definitions/documents";
 import useActionContext from "~/hooks/useActionContext";
 import useCurrentTeam from "~/hooks/useCurrentTeam";
+import useMobile from "~/hooks/useMobile";
 import usePolicy from "~/hooks/usePolicy";
 import useStores from "~/hooks/useStores";
 import useToasts from "~/hooks/useToasts";
@@ -63,7 +63,7 @@ type Props = {
   modal?: boolean;
   showToggleEmbeds?: boolean;
   showPin?: boolean;
-  label?: (arg0: any) => React.ReactNode;
+  label?: (props: MenuButtonHTMLProps) => React.ReactNode;
   onOpen?: () => void;
   onClose?: () => void;
 };
@@ -95,6 +95,7 @@ function DocumentMenu({
     activeCollectionId: document.collectionId,
   });
   const { t } = useTranslation();
+  const isMobile = useMobile();
   const [renderModals, setRenderModals] = React.useState(false);
   const [showDeleteModal, setShowDeleteModal] = React.useState(false);
   const [
@@ -409,20 +410,6 @@ function DocumentMenu({
               icon: <CrossIcon />,
             },
             {
-              type: "button",
-              title: t("Enable embeds"),
-              onClick: document.enableEmbeds,
-              visible: !!showToggleEmbeds && document.embedsDisabled,
-              icon: <BuildingBlocksIcon />,
-            },
-            {
-              type: "button",
-              title: t("Disable embeds"),
-              onClick: document.disableEmbeds,
-              visible: !!showToggleEmbeds && !document.embedsDisabled,
-              icon: <BuildingBlocksIcon />,
-            },
-            {
               type: "separator",
             },
             {
@@ -450,21 +437,38 @@ function DocumentMenu({
             },
           ]}
         />
-        {showDisplayOptions && (
+        {(showDisplayOptions || showToggleEmbeds) && (
           <>
             <Separator />
-            <Style>
-              <ToggleMenuItem
-                width={26}
-                height={14}
-                label={t("Full width")}
-                checked={document.fullWidth}
-                onChange={(ev) => {
-                  document.fullWidth = ev.currentTarget.checked;
-                  document.save();
-                }}
-              />
-            </Style>
+            {showToggleEmbeds && (
+              <Style>
+                <ToggleMenuItem
+                  width={26}
+                  height={14}
+                  label={t("Enable embeds")}
+                  checked={!document.embedsDisabled}
+                  onChange={
+                    document.embedsDisabled
+                      ? document.enableEmbeds
+                      : document.disableEmbeds
+                  }
+                />
+              </Style>
+            )}
+            {showDisplayOptions && !isMobile && (
+              <Style>
+                <ToggleMenuItem
+                  width={26}
+                  height={14}
+                  label={t("Full width")}
+                  checked={document.fullWidth}
+                  onChange={(ev) => {
+                    document.fullWidth = ev.currentTarget.checked;
+                    document.save();
+                  }}
+                />
+              </Style>
+            )}
           </>
         )}
       </ContextMenu>
@@ -491,6 +495,7 @@ function DocumentMenu({
               })}
               onRequestClose={() => setShowDeleteModal(false)}
               isOpen={showDeleteModal}
+              isCentered
             >
               <DocumentDelete
                 document={document}
@@ -505,6 +510,7 @@ function DocumentMenu({
               })}
               onRequestClose={() => setShowPermanentDeleteModal(false)}
               isOpen={showPermanentDeleteModal}
+              isCentered
             >
               <DocumentPermanentDelete
                 document={document}
@@ -517,6 +523,7 @@ function DocumentMenu({
               title={t("Create template")}
               onRequestClose={() => setShowTemplateModal(false)}
               isOpen={showTemplateModal}
+              isCentered
             >
               <DocumentTemplatize
                 documentId={document.id}
