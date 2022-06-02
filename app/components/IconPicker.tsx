@@ -46,6 +46,29 @@ import { LabelText } from "~/components/Input";
 import NudeButton from "~/components/NudeButton";
 import Text from "~/components/Text";
 
+import {
+  Diagrams,
+  DocSheet,
+  Floppy,
+  FountainPen,
+  GearRotation,
+  Globe,
+  HandShaking,
+  HandWaving,
+  Idea,
+  Images,
+  Layers,
+  MapIndicator,
+  MtpIcon,
+  Options,
+  Rocket,
+  Search,
+  Tags,
+  Targets,
+  WikiCloud
+} from "~/components/IconLibrary";
+
+
 const style = {
   width: 30,
   height: 30,
@@ -199,6 +222,82 @@ export const icons = {
     component: WarningIcon,
     keywords: "warning alert error",
   },
+  diagrams: {
+    component: Diagrams,
+    keywords: "Diagrams",
+  },
+  doc_sheet: {
+    component: DocSheet,
+    keywords: "DocSheet",
+  },
+  floppy: {
+    component: Floppy,
+    keywords: "Floppy",
+  },
+  fountain_pen: {
+    component: FountainPen,
+    keywords: "FountainPen",
+  },
+  gear_rotation: {
+    component: GearRotation,
+    keywords: "GearRotation",
+  },
+  globe: {
+    component: Globe,
+    keywords: "Globe",
+  },
+  hand_shaking: {
+    component: HandShaking,
+    keywords: "HandShaking",
+  },
+  hand_waving: {
+    component: HandWaving,
+    keywords: "HandWaving",
+  },
+  idea: {
+    component: Idea,
+    keywords: "Idea",
+  },
+  images: {
+    component: Images,
+    keywords: "Images",
+  },
+  layers: {
+    component: Layers,
+    keywords: "Layers",
+  },
+  map_indicator: {
+    component: MapIndicator,
+    keywords: "MapIndicator",
+  },
+  mtp: {
+    component: MtpIcon,
+    keywords: "MtpIcon",
+  },
+  options: {
+    component: Options,
+    keywords: "Options",
+  },
+  rocket: {
+    component: Rocket,
+    keywords: "Rocket",
+  },
+  search: {
+    component: Search,
+    keywords: "Search",
+  },
+  tags: {
+    component: Tags,
+    keywords: "Tags",
+  },
+  targets: {
+    component: Targets,
+    keywords: "Targets",
+  },
+  wiki_cloud: {
+    component: WikiCloud,
+    keywords: "WikiCloud",
+  }
 };
 const colors = [
   "#4E5C6E",
@@ -237,7 +336,7 @@ function IconPicker({ onOpen, onClose, icon, color, onChange }: Props) {
         {(props) => (
           <Button aria-label={t("Show menu")} {...props}>
             <Icon
-              as={icons[icon || "collection"].component}
+              as={icons[icon] ? icons[icon || "collection"].component : icons["collection"].component}
               color={color}
               size={30}
             />
